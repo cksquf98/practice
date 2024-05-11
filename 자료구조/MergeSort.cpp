@@ -38,7 +38,7 @@ void Combine(int left, int mid, int right, int *arr)
     {
         while(j <= right)
         {
-            sortedArr[k++] = arr[j];
+            sortedArr[k++] = arr[j++];
         }
     }   
     else    //두번째 arr 끝
