@@ -1,16 +1,16 @@
+#병합정렬로 풀까 생각해봤는데 ㅋㅎ 내장함수 써야지
+import sys
+input = sys.stdin.readline
+
 N = int(input())
 
 arr = []
+for _ in range(N):
+    num, str = input().rstrip().split()
+    arr.append([int(num), str])
 
-for i in range(N):
-    age, name = input().split()
-    
-    a = list()
-    a.append(int(age))
-    a.append(name)
-    arr.append(a)
+arr = sorted(arr, key=lambda x: (x[0]))
 
-arr.sort(key = lambda x: x[0])
-
-for age, name in arr:
-    print(age, name)
+for elem in arr:
+    print(elem[0], elem[1], end=' ')
+    print()
