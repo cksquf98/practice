@@ -24,7 +24,4 @@ for num in numList:
     if length < len(slide):
         length = len(slide)
 
-if length < len(slide):
-    length = len(slide)
-
 print(length)
