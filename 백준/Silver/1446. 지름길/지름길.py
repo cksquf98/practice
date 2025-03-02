@@ -1,35 +1,35 @@
+# 이 문제 또 못풀겠다 아놔,,, 어렵다!!!
+
 import sys
 from collections import deque
 input = sys.stdin.readline
 
-N, D = map(int, input().split())
-
-shortcuts = []
-
-distances = [float('inf')] * (D + 1) #inf = 아직 방문하지 않은 위치임을 표시
-distances[0] = 0
+N, D = map(int, input().split(" "))  # 지름길 개수, 도착 지점
+fastRoad = []
 
 for _ in range(N):
-    start, dest, length = map(int, input().split())
-    
-    if dest <= D:  # 지름길의 도착 지점이 D 이하인 경우만 고려
-        shortcuts.append((start, dest, length))
-    
+    roadInput = list(map(int, input().split(" ")))  # [출발 위치, 도착 위치, 소요거리]
 
+    if roadInput[1] <= D and roadInput[1] - roadInput[0] > roadInput[2]:
+        fastRoad.append(roadInput)
 
-queue = deque([0]) #0번 위치부터 시작
+# D까지의 모든 거리 하나하나를 비교하면서 거리를 계산해줘야 함
+distance = [float('inf') for _ in range(D+2)] # D+1까지 공간이 필요하기 때문에!!!
+distance[0] = 0
+
+queue = deque([0])  # 0번째부터 출발
 while queue:
     current = queue.popleft()
 
-    #그냥 한 칸 앞으로 이동하는 경우
-    if(current+1 <= D and distances[current+1] > distances[current]+1): #방문하지 않은 노드임을 체크
-        distances[current+1] = distances[current]+1
+    # 한 칸 앞으로 이동하는 경우 -> 지름길보다 하나 더 가는게 빠른 경우 갱신 필요
+    if current <= D and distance[current] + 1 < distance[current + 1]:
+        distance[current + 1] = distance[current] + 1
         queue.append(current+1)
 
-    #지름길을 사용할 수 있는 경우
-    for start, end, length in shortcuts:
-        if(start == current and distances[end] > distances[current] + length):
-              distances[end] = distances[current] + length
-              queue.append(end)
+    # 지름길을 갈 수 있는 경우
+    for start, end, extraDistance in fastRoad:
+        if start == current and distance[end] > distance[current] + extraDistance:
+            distance[end] = distance[current] + extraDistance
+            queue.append(end)
 
-print(distances[D])
+print(distance[D])
